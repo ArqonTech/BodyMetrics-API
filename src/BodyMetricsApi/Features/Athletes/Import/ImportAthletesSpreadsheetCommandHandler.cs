@@ -43,7 +43,6 @@ public sealed class ImportAthletesSpreadsheetCommandHandler(
     private const string SubscapularColumn = "Sub esc";
     private const string ThoraxColumn = "Torax";
     private const string SubaxillaryColumn = "Sub. Axi";
-    private const string SuprailiacColumn = "Supra. lli";
     private const string IliacCrestColumn = "Crist. ilíaca";
     private const string SupraspinaleColumn = "Sup. Espin";
     private const string AbdominalColumn = "abd";
@@ -69,11 +68,11 @@ public sealed class ImportAthletesSpreadsheetCommandHandler(
 
     // Team is opt-in: older spreadsheets without this column, or rows that leave it blank,
     // import exactly as before (athlete stays standalone).
-    // Newer spreadsheets replace "Supra. lli" with "Crist. ilíaca" and "Sup. Espin", so all three are optional.
+    // Newer spreadsheets no longer carry "Supra. lli"; "Crist. ilíaca" and "Sup. Espin" are optional so older files still import.
     private static readonly HashSet<string> OptionalColumns =
         new(StringComparer.Ordinal)
         {
-            TeamColumn, AbdominalCircumferenceColumn, SuprailiacColumn, IliacCrestColumn, SupraspinaleColumn
+            TeamColumn, AbdominalCircumferenceColumn, IliacCrestColumn, SupraspinaleColumn
         };
 
     private static readonly CultureInfo PtBrCulture = CultureInfo.GetCultureInfo("pt-BR");
@@ -103,7 +102,6 @@ public sealed class ImportAthletesSpreadsheetCommandHandler(
         [SubscapularColumn] = ["Sub esc", "Sub. esc"],
         [ThoraxColumn] = ["Torax", "Tórax"],
         [SubaxillaryColumn] = ["Sub. Axi", "Sub Axi"],
-        [SuprailiacColumn] = ["Supra. lli", "Supra lli", "Supra. Ili", "Supra Ili"],
         [IliacCrestColumn] = ["Crist. ilíaca", "Crist ilíaca", "Crista ilíaca", "Crist. ilíaca.", "Cr. ilíaca"],
         [SupraspinaleColumn] = ["Sup. Espin", "Sup Espin", "Sup. Espin.", "Supraespinal", "Supra espinal"],
         [AbdominalColumn] = ["abd", "abd.", "Abdominal"],
@@ -497,7 +495,7 @@ public sealed class ImportAthletesSpreadsheetCommandHandler(
                     GetOptionalDecimal(row, columnIndexes[SubscapularColumn], SubscapularColumn, rowNumber),
                     GetOptionalDecimal(row, columnIndexes[ThoraxColumn], ThoraxColumn, rowNumber),
                     GetOptionalDecimal(row, columnIndexes[SubaxillaryColumn], SubaxillaryColumn, rowNumber),
-                    GetOptionalColumnDecimal(row, columnIndexes, SuprailiacColumn, rowNumber),
+                    null,
                     GetOptionalDecimal(row, columnIndexes[AbdominalColumn], AbdominalColumn, rowNumber),
                     GetOptionalDecimal(row, columnIndexes[RightThighColumn], RightThighColumn, rowNumber),
                     GetOptionalDecimal(row, columnIndexes[LeftThighColumn], LeftThighColumn, rowNumber),

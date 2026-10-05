@@ -37,7 +37,8 @@ public sealed class AthletesImportSpreadsheetTests(MongoContainerFixture mongoFi
         "Sub esc",
         "Torax",
         "Sub. Axi",
-        "Supra. lli",
+        "Crist. ilíaca",
+        "Sup. Espin",
         "abd",
         "Coxa D",
         "Coxa E",
@@ -280,18 +281,11 @@ public sealed class AthletesImportSpreadsheetTests(MongoContainerFixture mongoFi
     }
 
     [Fact]
-    public async Task ImportSpreadsheet_ShouldImportIliacCrestAndSupraspinaleWithoutSuprailiacColumn()
+    public async Task ImportSpreadsheet_ShouldImportIliacCrestAndSupraspinale()
     {
         await using var factory = new TestApplicationFactory(mongoFixture, azuriteFixture);
         using var client = factory.CreateAuthenticatedClient();
-        var suprailiacIndex = DefaultHeaders.ToList().IndexOf("Supra. lli");
-        var headers = DefaultHeaders.ToList();
-        headers.RemoveAt(suprailiacIndex);
-        headers.InsertRange(suprailiacIndex, ["Crist. ilíaca", "Sup. Espin"]);
-        var row = CreateSpreadsheetRow("Iliac Check").ToList();
-        row.RemoveAt(suprailiacIndex);
-        row.InsertRange(suprailiacIndex, [8.4m, 7.2m]);
-        using var content = CreateImportContent("Volleyball", BuildWorkbookBytes(headers, [row.ToArray()]));
+        using var content = CreateImportContent("Volleyball", BuildWorkbookBytes(DefaultHeaders, [CreateSpreadsheetRow("Iliac Check")]));
 
         var importResponse = await client.PostAsync("/api/athletes/import", content);
         var athletesResponse = await client.GetAsync("/api/athletes?page=1&pageSize=10&fullName=Iliac%20Check");
@@ -301,9 +295,8 @@ public sealed class AthletesImportSpreadsheetTests(MongoContainerFixture mongoFi
         Assert.NotNull(athletes);
         var athlete = Assert.Single(athletes.Items);
         var assessment = Assert.Single(athlete.PhysicalAssessments);
-        Assert.Equal(8.4m, assessment.Skinfolds.IliacCrestMm);
-        Assert.Equal(7.2m, assessment.Skinfolds.SupraspinaleMm);
-        Assert.Null(assessment.Skinfolds.SuprailiacMm);
+        Assert.Equal(12.4m, assessment.Skinfolds.IliacCrestMm);
+        Assert.Equal(6.1m, assessment.Skinfolds.SupraspinaleMm);
     }
 
     [Fact]
@@ -584,6 +577,7 @@ public sealed class AthletesImportSpreadsheetTests(MongoContainerFixture mongoFi
             9.8m,
             10.2m,
             12.4m,
+            6.1m,
             13.0m,
             14.0m,
             13.7m,

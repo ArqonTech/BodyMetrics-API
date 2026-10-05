@@ -17,7 +17,7 @@ public sealed class AthletesImportTeamColumnTests(MongoContainerFixture mongoFix
     [
         "Setor", "Posição", "Fase", "Nome", "Sexo", "Raça", "Categoria", "Nascimento",
         "Data avaliação", "Peso", "Altura", "Altura sentado", "Tricep D.", "Tricep E.",
-        "Sub esc", "Torax", "Sub. Axi", "Supra. lli", "abd", "Coxa D", "Coxa E",
+        "Sub esc", "Torax", "Sub. Axi", "Crist. ilíaca", "Sup. Espin", "abd", "Coxa D", "Coxa E",
         "Pantu D", "Pantu E", "C. ombro", "C.Peitoral", "C.Braço D.", "C.Braço E.",
         "C.Cintura", "C.Quadril", "C. Medial D", "C.Medial E", "Pantu. D.", "Pantu. E.",
         "D.Punho", "D.Joelho", "D.Tornozelo", "Time"
@@ -222,7 +222,7 @@ public sealed class AthletesImportTeamColumnTests(MongoContainerFixture mongoFix
             new DateOnly(1999, 04, 08),
             new DateOnly(2026, 01, 01),
             weightKg, 177.2m, 92.5m,
-            10.0m, 10.5m, 11.1m, 9.8m, 10.2m, 12.4m, 13.0m, 14.0m, 13.7m, 9.6m, 9.5m,
+            10.0m, 10.5m, 11.1m, 9.8m, 10.2m, 12.4m, 6.1m, 13.0m, 14.0m, 13.7m, 9.6m, 9.5m,
             108.0m, 94.0m, 32.0m, 31.5m, 75.0m, 96.0m, 55.0m, 54.5m, 37.0m, 36.5m,
             16.0m, 34.0m, 22.0m,
             team
