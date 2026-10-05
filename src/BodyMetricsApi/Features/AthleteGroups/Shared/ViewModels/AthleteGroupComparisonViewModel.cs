@@ -27,7 +27,6 @@ public sealed record GroupSkinfoldsAggregateViewModel(
     MetricAggregateViewModel SubscapularMm,
     MetricAggregateViewModel ThoraxMm,
     MetricAggregateViewModel SubaxillaryMm,
-    MetricAggregateViewModel SuprailiacMm,
     MetricAggregateViewModel AbdominalMm,
     MetricAggregateViewModel RightThighMm,
     MetricAggregateViewModel LeftThighMm,

@@ -6,7 +6,6 @@ public sealed record SkinfoldsCommand(
     decimal? SubscapularMm,
     decimal? ThoraxMm,
     decimal? SubaxillaryMm,
-    decimal? SuprailiacMm,
     decimal? AbdominalMm,
     decimal? RightThighMm,
     decimal? LeftThighMm,

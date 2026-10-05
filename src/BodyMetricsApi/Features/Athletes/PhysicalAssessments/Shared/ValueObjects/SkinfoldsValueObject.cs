@@ -1,5 +1,10 @@
+using MongoDB.Bson.Serialization.Attributes;
+
 namespace BodyMetricsApi.Features.Athletes.PhysicalAssessments.Shared.ValueObjects;
 
+// Ignores stored elements that no longer exist (e.g. the removed legacy suprailiac skinfold),
+// so documents written before the removal still deserialize through the raw MongoDB driver.
+[BsonIgnoreExtraElements]
 public sealed class SkinfoldsValueObject
 {
     public decimal? RightTricepsMm { get; private set; }
@@ -7,7 +12,6 @@ public sealed class SkinfoldsValueObject
     public decimal? SubscapularMm { get; private set; }
     public decimal? ThoraxMm { get; private set; }
     public decimal? SubaxillaryMm { get; private set; }
-    public decimal? SuprailiacMm { get; private set; }
     public decimal? AbdominalMm { get; private set; }
     public decimal? RightThighMm { get; private set; }
     public decimal? LeftThighMm { get; private set; }
@@ -26,7 +30,6 @@ public sealed class SkinfoldsValueObject
         decimal? subscapularMm,
         decimal? thoraxMm,
         decimal? subaxillaryMm,
-        decimal? suprailiacMm,
         decimal? abdominalMm,
         decimal? rightThighMm,
         decimal? leftThighMm,
@@ -40,7 +43,6 @@ public sealed class SkinfoldsValueObject
         SubscapularMm = EnsurePositiveIfPresent(subscapularMm, nameof(SubscapularMm));
         ThoraxMm = EnsurePositiveIfPresent(thoraxMm, nameof(ThoraxMm));
         SubaxillaryMm = EnsurePositiveIfPresent(subaxillaryMm, nameof(SubaxillaryMm));
-        SuprailiacMm = EnsurePositiveIfPresent(suprailiacMm, nameof(SuprailiacMm));
         AbdominalMm = EnsurePositiveIfPresent(abdominalMm, nameof(AbdominalMm));
         RightThighMm = EnsurePositiveIfPresent(rightThighMm, nameof(RightThighMm));
         LeftThighMm = EnsurePositiveIfPresent(leftThighMm, nameof(LeftThighMm));
