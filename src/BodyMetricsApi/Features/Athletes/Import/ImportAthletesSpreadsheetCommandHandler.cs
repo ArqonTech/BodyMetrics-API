@@ -495,7 +495,6 @@ public sealed class ImportAthletesSpreadsheetCommandHandler(
                     GetOptionalDecimal(row, columnIndexes[SubscapularColumn], SubscapularColumn, rowNumber),
                     GetOptionalDecimal(row, columnIndexes[ThoraxColumn], ThoraxColumn, rowNumber),
                     GetOptionalDecimal(row, columnIndexes[SubaxillaryColumn], SubaxillaryColumn, rowNumber),
-                    null,
                     GetOptionalDecimal(row, columnIndexes[AbdominalColumn], AbdominalColumn, rowNumber),
                     GetOptionalDecimal(row, columnIndexes[RightThighColumn], RightThighColumn, rowNumber),
                     GetOptionalDecimal(row, columnIndexes[LeftThighColumn], LeftThighColumn, rowNumber),
