@@ -78,7 +78,9 @@ public sealed class CompareAthleteGroupsQueryHandler(
             RightThighMm: Aggregate(assessments.Select(a => a.Skinfolds.RightThighMm).ToList()),
             LeftThighMm: Aggregate(assessments.Select(a => a.Skinfolds.LeftThighMm).ToList()),
             RightCalfMm: Aggregate(assessments.Select(a => a.Skinfolds.RightCalfMm).ToList()),
-            LeftCalfMm: Aggregate(assessments.Select(a => a.Skinfolds.LeftCalfMm).ToList()));
+            LeftCalfMm: Aggregate(assessments.Select(a => a.Skinfolds.LeftCalfMm).ToList()),
+            IliacCrestMm: Aggregate(assessments.Select(a => a.Skinfolds.IliacCrestMm).ToList()),
+            SupraspinaleMm: Aggregate(assessments.Select(a => a.Skinfolds.SupraspinaleMm).ToList()));
     }
 
     private static GroupCircumferencesAggregateViewModel AggregateCircumferences(List<PhysicalAssessment> assessments)

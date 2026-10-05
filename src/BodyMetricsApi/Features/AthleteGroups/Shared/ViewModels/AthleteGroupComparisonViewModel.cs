@@ -32,7 +32,9 @@ public sealed record GroupSkinfoldsAggregateViewModel(
     MetricAggregateViewModel RightThighMm,
     MetricAggregateViewModel LeftThighMm,
     MetricAggregateViewModel RightCalfMm,
-    MetricAggregateViewModel LeftCalfMm);
+    MetricAggregateViewModel LeftCalfMm,
+    MetricAggregateViewModel IliacCrestMm,
+    MetricAggregateViewModel SupraspinaleMm);
 
 public sealed record GroupCircumferencesAggregateViewModel(
     MetricAggregateViewModel ShoulderCm,

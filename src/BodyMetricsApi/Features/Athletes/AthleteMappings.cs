@@ -32,7 +32,9 @@ public static class AthleteMappings
                         request.Skinfolds.RightThighMm,
                         request.Skinfolds.LeftThighMm,
                         request.Skinfolds.RightCalfMm,
-                        request.Skinfolds.LeftCalfMm),
+                        request.Skinfolds.LeftCalfMm,
+                        request.Skinfolds.IliacCrestMm,
+                        request.Skinfolds.SupraspinaleMm),
                 request.Circumferences is null
                     ? new CircumferencesValueObject()
                     : new CircumferencesValueObject(
@@ -94,7 +96,9 @@ public static class AthleteMappings
                         assessment.Skinfolds.RightThighMm,
                         assessment.Skinfolds.LeftThighMm,
                         assessment.Skinfolds.RightCalfMm,
-                        assessment.Skinfolds.LeftCalfMm),
+                        assessment.Skinfolds.LeftCalfMm,
+                        assessment.Skinfolds.IliacCrestMm,
+                        assessment.Skinfolds.SupraspinaleMm),
                     new CircumferencesViewModel(
                         assessment.Circumferences.ShoulderCm,
                         assessment.Circumferences.ChestCm,

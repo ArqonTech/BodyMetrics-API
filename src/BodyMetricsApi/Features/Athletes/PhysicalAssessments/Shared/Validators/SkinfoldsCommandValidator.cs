@@ -18,6 +18,8 @@ public sealed class SkinfoldsCommandValidator : AbstractValidator<SkinfoldsComma
         RuleFor(skinfolds => skinfolds.LeftThighMm).GreaterThan(0).When(value => value.LeftThighMm.HasValue && value.LeftThighMm.Value != 0);
         RuleFor(skinfolds => skinfolds.RightCalfMm).GreaterThan(0).When(value => value.RightCalfMm.HasValue && value.RightCalfMm.Value != 0);
         RuleFor(skinfolds => skinfolds.LeftCalfMm).GreaterThan(0).When(value => value.LeftCalfMm.HasValue && value.LeftCalfMm.Value != 0);
+        RuleFor(skinfolds => skinfolds.IliacCrestMm).GreaterThan(0).When(value => value.IliacCrestMm.HasValue && value.IliacCrestMm.Value != 0);
+        RuleFor(skinfolds => skinfolds.SupraspinaleMm).GreaterThan(0).When(value => value.SupraspinaleMm.HasValue && value.SupraspinaleMm.Value != 0);
     }
 }
 

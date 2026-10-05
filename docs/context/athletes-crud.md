@@ -18,6 +18,7 @@
 - Expose paged athlete listings with filters for `FullName`, `SportId`, `Sector`, `Category`, and `Phase`.
 - Keep listing behavior aligned with groups: without `groupId`, `GET /api/athletes` includes grouped and ungrouped athletes by default (`includeGrouped=false` keeps only ungrouped).
 - Treat `FullName` filtering in listings as autocomplete-style partial search, matching the beginning of the full name or any subsequent name token.
+- `Skinfolds` include `IliacCrestMm` (crista ilíaca) and `SupraspinaleMm` (supraespinal) alongside the legacy `SuprailiacMm`.
 - Treat all physical assessment measurements (`GeneralMeasurements`, `Skinfolds`, and `Circumferences`) as optional nullable fields; validate `> 0` only when a value is explicitly provided.
 
 ## Consequences

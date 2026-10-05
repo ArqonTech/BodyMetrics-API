@@ -11,5 +11,7 @@ public sealed record SkinfoldsViewModel(
     decimal? RightThighMm,
     decimal? LeftThighMm,
     decimal? RightCalfMm,
-    decimal? LeftCalfMm);
+    decimal? LeftCalfMm,
+    decimal? IliacCrestMm = null,
+    decimal? SupraspinaleMm = null);
 

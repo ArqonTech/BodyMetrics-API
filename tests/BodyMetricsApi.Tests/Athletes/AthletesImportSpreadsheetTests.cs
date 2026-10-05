@@ -280,6 +280,33 @@ public sealed class AthletesImportSpreadsheetTests(MongoContainerFixture mongoFi
     }
 
     [Fact]
+    public async Task ImportSpreadsheet_ShouldImportIliacCrestAndSupraspinaleWithoutSuprailiacColumn()
+    {
+        await using var factory = new TestApplicationFactory(mongoFixture, azuriteFixture);
+        using var client = factory.CreateAuthenticatedClient();
+        var suprailiacIndex = DefaultHeaders.ToList().IndexOf("Supra. lli");
+        var headers = DefaultHeaders.ToList();
+        headers.RemoveAt(suprailiacIndex);
+        headers.InsertRange(suprailiacIndex, ["Crist. ilíaca", "Sup. Espin"]);
+        var row = CreateSpreadsheetRow("Iliac Check").ToList();
+        row.RemoveAt(suprailiacIndex);
+        row.InsertRange(suprailiacIndex, [8.4m, 7.2m]);
+        using var content = CreateImportContent("Volleyball", BuildWorkbookBytes(headers, [row.ToArray()]));
+
+        var importResponse = await client.PostAsync("/api/athletes/import", content);
+        var athletesResponse = await client.GetAsync("/api/athletes?page=1&pageSize=10&fullName=Iliac%20Check");
+        var athletes = await athletesResponse.Content.ReadFromJsonAsync<PagedResponseViewModel<AthleteViewModel>>(factory.JsonSerializerOptions);
+
+        Assert.Equal(HttpStatusCode.OK, importResponse.StatusCode);
+        Assert.NotNull(athletes);
+        var athlete = Assert.Single(athletes.Items);
+        var assessment = Assert.Single(athlete.PhysicalAssessments);
+        Assert.Equal(8.4m, assessment.Skinfolds.IliacCrestMm);
+        Assert.Equal(7.2m, assessment.Skinfolds.SupraspinaleMm);
+        Assert.Null(assessment.Skinfolds.SuprailiacMm);
+    }
+
+    [Fact]
     public async Task ImportSpreadsheet_ShouldCreateAthletesAcrossMultipleWriteBatches()
     {
         await using var factory = new TestApplicationFactory(mongoFixture, azuriteFixture);

@@ -13,6 +13,8 @@ public sealed class SkinfoldsValueObject
     public decimal? LeftThighMm { get; private set; }
     public decimal? RightCalfMm { get; private set; }
     public decimal? LeftCalfMm { get; private set; }
+    public decimal? IliacCrestMm { get; private set; }
+    public decimal? SupraspinaleMm { get; private set; }
 
     public SkinfoldsValueObject()
     {
@@ -29,7 +31,9 @@ public sealed class SkinfoldsValueObject
         decimal? rightThighMm,
         decimal? leftThighMm,
         decimal? rightCalfMm,
-        decimal? leftCalfMm)
+        decimal? leftCalfMm,
+        decimal? iliacCrestMm = null,
+        decimal? supraspinaleMm = null)
     {
         RightTricepsMm = EnsurePositiveIfPresent(rightTricepsMm, nameof(RightTricepsMm));
         LeftTricepsMm = EnsurePositiveIfPresent(leftTricepsMm, nameof(LeftTricepsMm));
@@ -42,6 +46,8 @@ public sealed class SkinfoldsValueObject
         LeftThighMm = EnsurePositiveIfPresent(leftThighMm, nameof(LeftThighMm));
         RightCalfMm = EnsurePositiveIfPresent(rightCalfMm, nameof(RightCalfMm));
         LeftCalfMm = EnsurePositiveIfPresent(leftCalfMm, nameof(LeftCalfMm));
+        IliacCrestMm = EnsurePositiveIfPresent(iliacCrestMm, nameof(IliacCrestMm));
+        SupraspinaleMm = EnsurePositiveIfPresent(supraspinaleMm, nameof(SupraspinaleMm));
     }
 
     private static decimal? EnsurePositiveIfPresent(decimal? value, string propertyName)
