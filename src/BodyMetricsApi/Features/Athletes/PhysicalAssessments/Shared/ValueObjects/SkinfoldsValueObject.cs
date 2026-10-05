@@ -1,10 +1,5 @@
-using MongoDB.Bson.Serialization.Attributes;
-
 namespace BodyMetricsApi.Features.Athletes.PhysicalAssessments.Shared.ValueObjects;
 
-// Ignores stored elements that no longer exist (e.g. the removed legacy suprailiac skinfold),
-// so documents written before the removal still deserialize through the raw MongoDB driver.
-[BsonIgnoreExtraElements]
 public sealed class SkinfoldsValueObject
 {
     public decimal? RightTricepsMm { get; private set; }
@@ -18,6 +13,13 @@ public sealed class SkinfoldsValueObject
     public decimal? RightCalfMm { get; private set; }
     public decimal? LeftCalfMm { get; private set; }
     public decimal? IliacCrestMm { get; private set; }
+
+    // "Supra-ilíaca" was renamed to "Crista ilíaca". Assessments stored before the rename still
+    // carry their value under this legacy element; it is never written for new data and is
+    // exposed through EffectiveIliacCrestMm instead.
+    public decimal? SuprailiacMm { get; private set; }
+
+    public decimal? EffectiveIliacCrestMm => IliacCrestMm ?? SuprailiacMm;
     public decimal? SupraspinaleMm { get; private set; }
 
     public SkinfoldsValueObject()

@@ -78,7 +78,7 @@ public sealed class CompareAthleteGroupsQueryHandler(
             LeftThighMm: Aggregate(assessments.Select(a => a.Skinfolds.LeftThighMm).ToList()),
             RightCalfMm: Aggregate(assessments.Select(a => a.Skinfolds.RightCalfMm).ToList()),
             LeftCalfMm: Aggregate(assessments.Select(a => a.Skinfolds.LeftCalfMm).ToList()),
-            IliacCrestMm: Aggregate(assessments.Select(a => a.Skinfolds.IliacCrestMm).ToList()),
+            IliacCrestMm: Aggregate(assessments.Select(a => a.Skinfolds.EffectiveIliacCrestMm).ToList()),
             SupraspinaleMm: Aggregate(assessments.Select(a => a.Skinfolds.SupraspinaleMm).ToList()));
     }
 

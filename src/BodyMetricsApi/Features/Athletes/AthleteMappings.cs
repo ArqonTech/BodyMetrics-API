@@ -95,7 +95,7 @@ public static class AthleteMappings
                         assessment.Skinfolds.LeftThighMm,
                         assessment.Skinfolds.RightCalfMm,
                         assessment.Skinfolds.LeftCalfMm,
-                        assessment.Skinfolds.IliacCrestMm,
+                        assessment.Skinfolds.EffectiveIliacCrestMm,
                         assessment.Skinfolds.SupraspinaleMm),
                     new CircumferencesViewModel(
                         assessment.Circumferences.ShoulderCm,

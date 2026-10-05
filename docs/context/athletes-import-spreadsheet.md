@@ -12,7 +12,7 @@
 - Create the sport when `SportName` does not exist yet, and enrich existing sports with any new `Sector` or `Category` values found in the file.
 - Scope athlete upserts by authenticated owner plus `FullName`, then merge imported assessments by `AssessmentDate` so same-date rows replace the stored snapshot.
 - Keep `Posição` as part of the required spreadsheet contract for now, but ignore it during persistence until the domain exposes a matching field.
-- Skinfold columns `Crist. ilíaca` (`IliacCrestMm`) and `Sup. Espin` (`SupraspinaleMm`) are optional. `Supra. lli` is no longer read or stored.
+- Skinfold columns `Crist. ilíaca` (`IliacCrestMm`) and `Sup. Espin` (`SupraspinaleMm`) are optional. `Supra. lli` was renamed `Crist. ilíaca`; the old header is still accepted as an alias.
 - Fail fast with validation details when required headers are missing or row values cannot be parsed into the existing enums and measurements.
 
 ## Consequences

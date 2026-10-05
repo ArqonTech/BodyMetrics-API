@@ -68,7 +68,7 @@ public sealed class ImportAthletesSpreadsheetCommandHandler(
 
     // Team is opt-in: older spreadsheets without this column, or rows that leave it blank,
     // import exactly as before (athlete stays standalone).
-    // Newer spreadsheets no longer carry "Supra. lli"; "Crist. ilíaca" and "Sup. Espin" are optional so older files still import.
+    // "Supra. lli" was renamed to "Crist. ilíaca" (old header kept as an alias); both new skinfold columns are optional so older files still import.
     private static readonly HashSet<string> OptionalColumns =
         new(StringComparer.Ordinal)
         {
@@ -102,7 +102,7 @@ public sealed class ImportAthletesSpreadsheetCommandHandler(
         [SubscapularColumn] = ["Sub esc", "Sub. esc"],
         [ThoraxColumn] = ["Torax", "Tórax"],
         [SubaxillaryColumn] = ["Sub. Axi", "Sub Axi"],
-        [IliacCrestColumn] = ["Crist. ilíaca", "Crist ilíaca", "Crista ilíaca", "Crist. ilíaca.", "Cr. ilíaca"],
+        [IliacCrestColumn] = ["Crist. ilíaca", "Crist ilíaca", "Crista ilíaca", "Crist. ilíaca.", "Cr. ilíaca", "Supra. lli", "Supra lli", "Supra. Ili", "Supra Ili"],
         [SupraspinaleColumn] = ["Sup. Espin", "Sup Espin", "Sup. Espin.", "Supraespinal", "Supra espinal"],
         [AbdominalColumn] = ["abd", "abd.", "Abdominal"],
         [RightThighColumn] = ["Coxa D", "Coxa D."],

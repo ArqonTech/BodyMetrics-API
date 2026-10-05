@@ -300,6 +300,24 @@ public sealed class AthletesImportSpreadsheetTests(MongoContainerFixture mongoFi
     }
 
     [Fact]
+    public async Task ImportSpreadsheet_ShouldAcceptLegacySuprailiacHeaderAsIliacCrest()
+    {
+        await using var factory = new TestApplicationFactory(mongoFixture, azuriteFixture);
+        using var client = factory.CreateAuthenticatedClient();
+        var headers = DefaultHeaders.Select(header => header == "Crist. ilíaca" ? "Supra. lli" : header).ToList();
+        using var content = CreateImportContent("Volleyball", BuildWorkbookBytes(headers, [CreateSpreadsheetRow("Legacy Iliac")]));
+
+        var importResponse = await client.PostAsync("/api/athletes/import", content);
+        var athletesResponse = await client.GetAsync("/api/athletes?page=1&pageSize=10&fullName=Legacy%20Iliac");
+        var athletes = await athletesResponse.Content.ReadFromJsonAsync<PagedResponseViewModel<AthleteViewModel>>(factory.JsonSerializerOptions);
+
+        Assert.Equal(HttpStatusCode.OK, importResponse.StatusCode);
+        Assert.NotNull(athletes);
+        var assessment = Assert.Single(Assert.Single(athletes.Items).PhysicalAssessments);
+        Assert.Equal(12.4m, assessment.Skinfolds.IliacCrestMm);
+    }
+
+    [Fact]
     public async Task ImportSpreadsheet_ShouldCreateAthletesAcrossMultipleWriteBatches()
     {
         await using var factory = new TestApplicationFactory(mongoFixture, azuriteFixture);
