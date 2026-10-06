@@ -43,7 +43,8 @@ public sealed class ImportAthletesSpreadsheetCommandHandler(
     private const string SubscapularColumn = "Sub esc";
     private const string ThoraxColumn = "Torax";
     private const string SubaxillaryColumn = "Sub. Axi";
-    private const string SuprailiacColumn = "Supra. lli";
+    private const string IliacCrestColumn = "Crist. ilíaca";
+    private const string SupraspinaleColumn = "Sup. Espin";
     private const string AbdominalColumn = "abd";
     private const string RightThighColumn = "Coxa D";
     private const string LeftThighColumn = "Coxa E";
@@ -67,8 +68,12 @@ public sealed class ImportAthletesSpreadsheetCommandHandler(
 
     // Team is opt-in: older spreadsheets without this column, or rows that leave it blank,
     // import exactly as before (athlete stays standalone).
+    // "Supra. lli" was renamed to "Crist. ilíaca" (old header kept as an alias); both new skinfold columns are optional so older files still import.
     private static readonly HashSet<string> OptionalColumns =
-        new(StringComparer.Ordinal) { TeamColumn, AbdominalCircumferenceColumn };
+        new(StringComparer.Ordinal)
+        {
+            TeamColumn, AbdominalCircumferenceColumn, IliacCrestColumn, SupraspinaleColumn
+        };
 
     private static readonly CultureInfo PtBrCulture = CultureInfo.GetCultureInfo("pt-BR");
 
@@ -97,7 +102,8 @@ public sealed class ImportAthletesSpreadsheetCommandHandler(
         [SubscapularColumn] = ["Sub esc", "Sub. esc"],
         [ThoraxColumn] = ["Torax", "Tórax"],
         [SubaxillaryColumn] = ["Sub. Axi", "Sub Axi"],
-        [SuprailiacColumn] = ["Supra. lli", "Supra lli", "Supra. Ili", "Supra Ili"],
+        [IliacCrestColumn] = ["Crist. ilíaca", "Crist ilíaca", "Crista ilíaca", "Crist. ilíaca.", "Cr. ilíaca", "Supra. lli", "Supra lli", "Supra. Ili", "Supra Ili"],
+        [SupraspinaleColumn] = ["Sup. Espin", "Sup Espin", "Sup. Espin.", "Supraespinal", "Supra espinal"],
         [AbdominalColumn] = ["abd", "abd.", "Abdominal"],
         [RightThighColumn] = ["Coxa D", "Coxa D."],
         [LeftThighColumn] = ["Coxa E", "Coxa E."],
@@ -489,12 +495,13 @@ public sealed class ImportAthletesSpreadsheetCommandHandler(
                     GetOptionalDecimal(row, columnIndexes[SubscapularColumn], SubscapularColumn, rowNumber),
                     GetOptionalDecimal(row, columnIndexes[ThoraxColumn], ThoraxColumn, rowNumber),
                     GetOptionalDecimal(row, columnIndexes[SubaxillaryColumn], SubaxillaryColumn, rowNumber),
-                    GetOptionalDecimal(row, columnIndexes[SuprailiacColumn], SuprailiacColumn, rowNumber),
                     GetOptionalDecimal(row, columnIndexes[AbdominalColumn], AbdominalColumn, rowNumber),
                     GetOptionalDecimal(row, columnIndexes[RightThighColumn], RightThighColumn, rowNumber),
                     GetOptionalDecimal(row, columnIndexes[LeftThighColumn], LeftThighColumn, rowNumber),
                     GetOptionalDecimal(row, columnIndexes[RightCalfSkinfoldColumn], RightCalfSkinfoldColumn, rowNumber),
-                    GetOptionalDecimal(row, columnIndexes[LeftCalfSkinfoldColumn], LeftCalfSkinfoldColumn, rowNumber)),
+                    GetOptionalDecimal(row, columnIndexes[LeftCalfSkinfoldColumn], LeftCalfSkinfoldColumn, rowNumber),
+                    GetOptionalColumnDecimal(row, columnIndexes, IliacCrestColumn, rowNumber),
+                    GetOptionalColumnDecimal(row, columnIndexes, SupraspinaleColumn, rowNumber)),
                 new CircumferencesValueObject(
                     GetOptionalDecimal(row, columnIndexes[ShoulderColumn], ShoulderColumn, rowNumber),
                     GetOptionalDecimal(row, columnIndexes[ChestColumn], ChestColumn, rowNumber),
@@ -625,6 +632,14 @@ public sealed class ImportAthletesSpreadsheetCommandHandler(
         }
 
         return value.Value;
+    }
+
+    private static decimal? GetOptionalColumnDecimal(IXLRow row, IReadOnlyDictionary<string, int> columnIndexes,
+        string columnName, int rowNumber)
+    {
+        return columnIndexes.TryGetValue(columnName, out var columnNumber)
+            ? GetOptionalDecimal(row, columnNumber, columnName, rowNumber)
+            : null;
     }
 
     private static decimal? GetOptionalDecimal(IXLRow row, int columnNumber, string columnName, int rowNumber)

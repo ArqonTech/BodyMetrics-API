@@ -215,7 +215,7 @@ public sealed class CompareGroupsTests(MongoContainerFixture mongoFixture, Azuri
         decimal weightKg = 75m, decimal? abdominalMm = null)
     {
         var skinfolds = abdominalMm.HasValue
-            ? new SkinfoldsCommand(null, null, null, null, null, null, abdominalMm, null, null, null, null)
+            ? new SkinfoldsCommand(null, null, null, null, null, abdominalMm, null, null, null, null)
             : null;
 
         var cmd = new CreateAthleteCommand(
