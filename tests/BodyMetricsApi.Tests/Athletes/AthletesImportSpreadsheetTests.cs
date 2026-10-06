@@ -37,7 +37,8 @@ public sealed class AthletesImportSpreadsheetTests(MongoContainerFixture mongoFi
         "Sub esc",
         "Torax",
         "Sub. Axi",
-        "Supra. lli",
+        "Crist. ilíaca",
+        "Sup. Espin",
         "abd",
         "Coxa D",
         "Coxa E",
@@ -277,6 +278,43 @@ public sealed class AthletesImportSpreadsheetTests(MongoContainerFixture mongoFi
         Assert.Equal(9.5m, assessment.Skinfolds.LeftCalfMm);
         Assert.Equal(37.0m, assessment.Circumferences.RightCalfCm);
         Assert.Equal(36.5m, assessment.Circumferences.LeftCalfCm);
+    }
+
+    [Fact]
+    public async Task ImportSpreadsheet_ShouldImportIliacCrestAndSupraspinale()
+    {
+        await using var factory = new TestApplicationFactory(mongoFixture, azuriteFixture);
+        using var client = factory.CreateAuthenticatedClient();
+        using var content = CreateImportContent("Volleyball", BuildWorkbookBytes(DefaultHeaders, [CreateSpreadsheetRow("Iliac Check")]));
+
+        var importResponse = await client.PostAsync("/api/athletes/import", content);
+        var athletesResponse = await client.GetAsync("/api/athletes?page=1&pageSize=10&fullName=Iliac%20Check");
+        var athletes = await athletesResponse.Content.ReadFromJsonAsync<PagedResponseViewModel<AthleteViewModel>>(factory.JsonSerializerOptions);
+
+        Assert.Equal(HttpStatusCode.OK, importResponse.StatusCode);
+        Assert.NotNull(athletes);
+        var athlete = Assert.Single(athletes.Items);
+        var assessment = Assert.Single(athlete.PhysicalAssessments);
+        Assert.Equal(12.4m, assessment.Skinfolds.IliacCrestMm);
+        Assert.Equal(6.1m, assessment.Skinfolds.SupraspinaleMm);
+    }
+
+    [Fact]
+    public async Task ImportSpreadsheet_ShouldAcceptLegacySuprailiacHeaderAsIliacCrest()
+    {
+        await using var factory = new TestApplicationFactory(mongoFixture, azuriteFixture);
+        using var client = factory.CreateAuthenticatedClient();
+        var headers = DefaultHeaders.Select(header => header == "Crist. ilíaca" ? "Supra. lli" : header).ToList();
+        using var content = CreateImportContent("Volleyball", BuildWorkbookBytes(headers, [CreateSpreadsheetRow("Legacy Iliac")]));
+
+        var importResponse = await client.PostAsync("/api/athletes/import", content);
+        var athletesResponse = await client.GetAsync("/api/athletes?page=1&pageSize=10&fullName=Legacy%20Iliac");
+        var athletes = await athletesResponse.Content.ReadFromJsonAsync<PagedResponseViewModel<AthleteViewModel>>(factory.JsonSerializerOptions);
+
+        Assert.Equal(HttpStatusCode.OK, importResponse.StatusCode);
+        Assert.NotNull(athletes);
+        var assessment = Assert.Single(Assert.Single(athletes.Items).PhysicalAssessments);
+        Assert.Equal(12.4m, assessment.Skinfolds.IliacCrestMm);
     }
 
     [Fact]
@@ -557,6 +595,7 @@ public sealed class AthletesImportSpreadsheetTests(MongoContainerFixture mongoFi
             9.8m,
             10.2m,
             12.4m,
+            6.1m,
             13.0m,
             14.0m,
             13.7m,

@@ -7,12 +7,20 @@ public sealed class SkinfoldsValueObject
     public decimal? SubscapularMm { get; private set; }
     public decimal? ThoraxMm { get; private set; }
     public decimal? SubaxillaryMm { get; private set; }
-    public decimal? SuprailiacMm { get; private set; }
     public decimal? AbdominalMm { get; private set; }
     public decimal? RightThighMm { get; private set; }
     public decimal? LeftThighMm { get; private set; }
     public decimal? RightCalfMm { get; private set; }
     public decimal? LeftCalfMm { get; private set; }
+    public decimal? IliacCrestMm { get; private set; }
+
+    // "Supra-ilíaca" was renamed to "Crista ilíaca". Assessments stored before the rename still
+    // carry their value under this legacy element; it is never written for new data and is
+    // exposed through EffectiveIliacCrestMm instead.
+    public decimal? SuprailiacMm { get; private set; }
+
+    public decimal? EffectiveIliacCrestMm => IliacCrestMm ?? SuprailiacMm;
+    public decimal? SupraspinaleMm { get; private set; }
 
     public SkinfoldsValueObject()
     {
@@ -24,24 +32,26 @@ public sealed class SkinfoldsValueObject
         decimal? subscapularMm,
         decimal? thoraxMm,
         decimal? subaxillaryMm,
-        decimal? suprailiacMm,
         decimal? abdominalMm,
         decimal? rightThighMm,
         decimal? leftThighMm,
         decimal? rightCalfMm,
-        decimal? leftCalfMm)
+        decimal? leftCalfMm,
+        decimal? iliacCrestMm = null,
+        decimal? supraspinaleMm = null)
     {
         RightTricepsMm = EnsurePositiveIfPresent(rightTricepsMm, nameof(RightTricepsMm));
         LeftTricepsMm = EnsurePositiveIfPresent(leftTricepsMm, nameof(LeftTricepsMm));
         SubscapularMm = EnsurePositiveIfPresent(subscapularMm, nameof(SubscapularMm));
         ThoraxMm = EnsurePositiveIfPresent(thoraxMm, nameof(ThoraxMm));
         SubaxillaryMm = EnsurePositiveIfPresent(subaxillaryMm, nameof(SubaxillaryMm));
-        SuprailiacMm = EnsurePositiveIfPresent(suprailiacMm, nameof(SuprailiacMm));
         AbdominalMm = EnsurePositiveIfPresent(abdominalMm, nameof(AbdominalMm));
         RightThighMm = EnsurePositiveIfPresent(rightThighMm, nameof(RightThighMm));
         LeftThighMm = EnsurePositiveIfPresent(leftThighMm, nameof(LeftThighMm));
         RightCalfMm = EnsurePositiveIfPresent(rightCalfMm, nameof(RightCalfMm));
         LeftCalfMm = EnsurePositiveIfPresent(leftCalfMm, nameof(LeftCalfMm));
+        IliacCrestMm = EnsurePositiveIfPresent(iliacCrestMm, nameof(IliacCrestMm));
+        SupraspinaleMm = EnsurePositiveIfPresent(supraspinaleMm, nameof(SupraspinaleMm));
     }
 
     private static decimal? EnsurePositiveIfPresent(decimal? value, string propertyName)

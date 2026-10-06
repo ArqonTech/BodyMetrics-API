@@ -27,12 +27,13 @@ public static class AthleteMappings
                         request.Skinfolds.SubscapularMm,
                         request.Skinfolds.ThoraxMm,
                         request.Skinfolds.SubaxillaryMm,
-                        request.Skinfolds.SuprailiacMm,
                         request.Skinfolds.AbdominalMm,
                         request.Skinfolds.RightThighMm,
                         request.Skinfolds.LeftThighMm,
                         request.Skinfolds.RightCalfMm,
-                        request.Skinfolds.LeftCalfMm),
+                        request.Skinfolds.LeftCalfMm,
+                        request.Skinfolds.IliacCrestMm,
+                        request.Skinfolds.SupraspinaleMm),
                 request.Circumferences is null
                     ? new CircumferencesValueObject()
                     : new CircumferencesValueObject(
@@ -89,12 +90,13 @@ public static class AthleteMappings
                         assessment.Skinfolds.SubscapularMm,
                         assessment.Skinfolds.ThoraxMm,
                         assessment.Skinfolds.SubaxillaryMm,
-                        assessment.Skinfolds.SuprailiacMm,
                         assessment.Skinfolds.AbdominalMm,
                         assessment.Skinfolds.RightThighMm,
                         assessment.Skinfolds.LeftThighMm,
                         assessment.Skinfolds.RightCalfMm,
-                        assessment.Skinfolds.LeftCalfMm),
+                        assessment.Skinfolds.LeftCalfMm,
+                        assessment.Skinfolds.EffectiveIliacCrestMm,
+                        assessment.Skinfolds.SupraspinaleMm),
                     new CircumferencesViewModel(
                         assessment.Circumferences.ShoulderCm,
                         assessment.Circumferences.ChestCm,

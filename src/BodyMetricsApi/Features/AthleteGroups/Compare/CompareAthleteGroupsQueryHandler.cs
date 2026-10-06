@@ -73,12 +73,13 @@ public sealed class CompareAthleteGroupsQueryHandler(
             SubscapularMm: Aggregate(assessments.Select(a => a.Skinfolds.SubscapularMm).ToList()),
             ThoraxMm: Aggregate(assessments.Select(a => a.Skinfolds.ThoraxMm).ToList()),
             SubaxillaryMm: Aggregate(assessments.Select(a => a.Skinfolds.SubaxillaryMm).ToList()),
-            SuprailiacMm: Aggregate(assessments.Select(a => a.Skinfolds.SuprailiacMm).ToList()),
             AbdominalMm: Aggregate(assessments.Select(a => a.Skinfolds.AbdominalMm).ToList()),
             RightThighMm: Aggregate(assessments.Select(a => a.Skinfolds.RightThighMm).ToList()),
             LeftThighMm: Aggregate(assessments.Select(a => a.Skinfolds.LeftThighMm).ToList()),
             RightCalfMm: Aggregate(assessments.Select(a => a.Skinfolds.RightCalfMm).ToList()),
-            LeftCalfMm: Aggregate(assessments.Select(a => a.Skinfolds.LeftCalfMm).ToList()));
+            LeftCalfMm: Aggregate(assessments.Select(a => a.Skinfolds.LeftCalfMm).ToList()),
+            IliacCrestMm: Aggregate(assessments.Select(a => a.Skinfolds.EffectiveIliacCrestMm).ToList()),
+            SupraspinaleMm: Aggregate(assessments.Select(a => a.Skinfolds.SupraspinaleMm).ToList()));
     }
 
     private static GroupCircumferencesAggregateViewModel AggregateCircumferences(List<PhysicalAssessment> assessments)
